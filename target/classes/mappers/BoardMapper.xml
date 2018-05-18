@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.BoardMapper">
+	<insert id="create">
+		insert into tbl_board (title, content, writer)
+		values (#{title}, #{content}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<update id="update">
+		update tbl_board set title =#{title}, content=#{content} where bno=#{bno};
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+	</delete>
+	
+	<select id="readAll" resultType="BoardVO">
+		select * from tbl_board order by bno desc
+	</select>
+	
+	<select id="listPage" resultType="BoardVO">
+		select * from tbl_board order by bno desc limit #{page}, 10
+	</select>
+	
+	<select id="listCriteria" resultType="BoardVO">
+		select * from tbl_board order by bno desc limit #{pageStart}, #{perPageNum}
+	</select>
+
+	
+	<sql id="search">
+      <if test="searchType == 't'.toString()">
+         where title like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="searchType == 'c'.toString()">
+         where content like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="searchType == 'w'.toString()">
+         where writer like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="searchType == 'tc'.toString()">
+         where title like CONCAT('%',#{keyword},'%') or
+         where content like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="searchType == 'cw'.toString()">
+         where writer like CONCAT('%',#{keyword},'%') or
+         where content like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="searchType == 'tcw'.toString()">
+         where title like CONCAT('%',#{keyword},'%') or
+         where content like CONCAT('%',#{keyword},'%') or
+         where writer like CONCAT('%',#{keyword},'%')
+      </if>
+   </sql>
+   
+	<select id="listSearch" resultType="BoardVO">
+		select * from tbl_board
+		<include refid="search" />
+		order by bno desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="totalCount" resultType="int">
+		select count(bno) from tbl_board
+	</select>
+	
+   <select id="totalSearchCount" resultType="int">
+      select count(bno) from tbl_board
+      <include refid="search" />
+   </select>
+   
+   
+   <update id="updateReplyCnt">
+   		update tbl_board set replycnt = replycnt + #{amount}
+   		where bno = #{bno}
+   </update>
+   
+   
+   <update id="updateViewCnt">
+		update tbl_board set viewcnt = viewcnt + 1
+		where bno = #{bno}
+   </update>
+   
+   
+   
+</mapper>
