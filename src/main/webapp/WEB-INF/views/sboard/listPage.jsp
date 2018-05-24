@@ -32,6 +32,11 @@
 							location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
 							
 						})
+						
+						$("#register").click(function(){
+							location.href = "register";
+						})
+						
 					</script>
 				</div>
 				<div class="box-body">

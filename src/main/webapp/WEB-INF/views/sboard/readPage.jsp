@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp"%>
 
 <script src="${pageContext.request.contextPath}/resources/handlebars-v4.0.10.js"></script>
@@ -12,11 +13,14 @@
 					<h3 class="box-title">Register Board</h3>
 				</div>
 				<div class="box-body">
-					<form method="get" id="f1">
+					<form method="get" id="f1" enctype="multipart/form-data">
 						<input type="hidden" name="bno" value="${boardVO.bno }" id="bno">
 						<input type="hidden" name="page" value="${cri.page }">
 						<input type="hidden" name="searchType" value="${cri.searchType }">
 						<input type="hidden" name="keyword" value="${cri.keyword }">
+						<c:forEach var ="file" items="${boardVO.files }">							
+							<input type="hidden" name="fileName" value="${file }">
+						</c:forEach> 
 					</form>
 					<div class=form-group>
 						<label>TITLE</label>
@@ -25,10 +29,17 @@
 					<div class=form-group>
 						<label>Writer</label>
 						<input type="text" name="writer" class="form-control" value="${boardVO.writer }" readonly="readonly">
-					</div>
+					</div>					
 					<div class=form-group>
 						<label>Content</label>
 						<input type="text" name="writer" class="form-control" value="${boardVO.content }" readonly="readonly">										
+					</div>
+					<div class="form-group">
+						<label>File</label>
+						<br>
+						<c:forEach var ="file" items="${boardVO.files }">
+							<img src="displayFile?filename=${file }">
+						</c:forEach> 
 					</div>
 				</div>
 				<div class="box-footer">
@@ -82,7 +93,7 @@
 								placeholder="User ID" id="newReplyWriter"> <label>Reply
 								Text </label> <input class="form-control" type="text"
 								placeholder="Reply Text" id="newReplyText">
-						</div>
+						</div>						
 						<div class="box-footer">
 							<button class="btn btn-primary" id="replyAddBtn">Add Reply</button>
 						</div>

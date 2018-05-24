@@ -10,7 +10,7 @@
 					<h3 class="box-title">Register sBoard</h3>
 				</div>
 				<div class="box-body">
-					<form role="form" method="post" action="register">
+					<form role="form" method="post" action="register" enctype="multipart/form-data">
 						<div class="form-group">
 							<label>Title</label>
 							<input type="text" name="title" class="form-control" placeholder="Enter Title">
@@ -22,7 +22,11 @@
 						<div class="form-group">
 							<label>Content</label>
 							<textarea rows="5" cols="30" class="form-control" name="content"></textarea>
-						</div>						
+						</div>
+						<div class="form-group">
+							<label>Files</label>
+							<input type="file" name="imageFiles" class="form-control" multiple="multiple">
+						</div>				
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</div>
