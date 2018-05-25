@@ -55,19 +55,31 @@ public class SearchBoardController {
 			logger.info("sboard register Post ......");
 			logger.info(vo.toString());
 			
-			ArrayList<String> list = new ArrayList<>();
 			
-			
-			for(MultipartFile file : imageFiles){
-				logger.info("filename : " + file.getOriginalFilename());
+			if(imageFiles.get(0).isEmpty()){
+				logger.info("=========================== 업로드 없음 =========================== " );
 				
-				String thumb = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				service.regist(vo);				
+				
+			}else{							
+				
+				logger.info("=========================== 업로드 있음 =========================== " );
+				
+				ArrayList<String> list = new ArrayList<>();
+			
+			
+				for(MultipartFile file : imageFiles){
+					logger.info("filename : " + file.getOriginalFilename());
+				
+					String thumb = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 		
-				list.add(thumb);
+					list.add(thumb);
+				}
+			
+				vo.setFiles(list.toArray(new String[list.size()]));			
+				service.regist(vo);
 			}
 			
-			vo.setFiles(list.toArray(new String[list.size()]));			
-			service.regist(vo);
 			
 			return "redirect:/sboard/listPage";
 		}
@@ -116,13 +128,23 @@ public class SearchBoardController {
 	public String remove(Model model, int bno, String[] fileName,SearchCriteria cri, BoardVO vo) throws Exception{
 		logger.info("sboard removePage.........");
 		
-		for(String file : fileName){
-			logger.info(file+"======================================");
-			UploadFileUtils.deleteFile(uploadPath, file);
-			service.deleteAttach(vo.getBno(), file);				
+		if(fileName != null ){
+			logger.info("===========================삭제 게시물에 사진이 있음 =========================== " );
+			for(String file : fileName){
+				logger.info(file+"======================================");
+				UploadFileUtils.deleteFile(uploadPath, file);
+				service.deleteAttach(vo.getBno(), file);				
+			}
+			service.remove(bno);
+			
+		}else{
+			logger.info("===========================삭제 게시물에 사진이 없음 =========================== " );
+			
+			service.remove(bno);
 		}
 		
-		service.remove(bno);
+		
+		
 		
 		
 		model.addAttribute("page", cri.getPage());
@@ -199,7 +221,7 @@ public class SearchBoardController {
 				UploadFileUtils.deleteFile(uploadPath, file);
 				service.deleteAttach(vo.getBno(), file);				
 			}
-			
+			vo.setFiles(list.toArray(new String[list.size()]));
 			service.modify(vo);
 		}
 		

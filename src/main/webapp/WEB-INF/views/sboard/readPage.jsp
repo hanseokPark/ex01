@@ -43,12 +43,14 @@
 					</div>
 				</div>
 				<div class="box-footer">
+					<c:if test="${boardVO.writer == login.uid }">
 					<button type="submit" class="btn btn-warning" id="modifyBtn">
 						Modify
 					</button>
 					<button type="submit" class="btn btn-danger" id="deleteBtn">
 						Delete
 					</button>
+					</c:if>
 					<button type="submit" class="btn btn-primary" id="goListBtn">
 						GO LIST
 					</button>
@@ -89,10 +91,10 @@
 							<h3 class="box-title">ADD NEW REPLY</h3>
 						</div>
 						<div class="box-body">
-							<label>Writer</label> <input class="form-control" type="text"
-								placeholder="User ID" id="newReplyWriter"> <label>Reply
-								Text </label> <input class="form-control" type="text"
-								placeholder="Reply Text" id="newReplyText">
+							<label>Writer</label> 
+							<input class="form-control" type="text"	placeholder="User ID" id="newReplyWriter" value="${login.uid }" readonly="readonly">
+						 	<label>Reply Text</label> 
+						 	<input class="form-control" type="text"	placeholder="Reply Text" id="newReplyText">
 						</div>						
 						<div class="box-footer">
 							<button class="btn btn-primary" id="replyAddBtn">Add Reply</button>

@@ -17,7 +17,7 @@
 						</div>
 						<div class="form-group">
 							<label>Writer</label>
-							<input type="text" name="writer" class="form-control" placeholder="Enter Writer">
+							<input type="text" name="writer" class="form-control" placeholder="Enter Writer" value="${login.uid }" readonly="readonly">
 						</div>
 						<div class="form-group">
 							<label>Content</label>
