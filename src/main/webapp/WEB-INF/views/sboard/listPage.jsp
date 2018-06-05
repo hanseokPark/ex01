@@ -10,7 +10,7 @@
 			<div class="box box-primary">
 				<div class="box-header">
 					<h3 class="box-title">Search ListPage Board</h3>
-				</div>
+				</div>  
 				<div class="box-body">
 					<select name="searchType" id="searchType">
 						<option value="n" ${cri.searchType == 'n' ? 'selected' : '' }>------------------</option>

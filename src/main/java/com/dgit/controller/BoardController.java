@@ -102,6 +102,7 @@ public class BoardController {
 	@RequestMapping(value="/listPage", method=RequestMethod.GET)
 	public void listPage(Model model, Criteria cri) throws Exception{
 		logger.info("board listAll ....");
+		logger.info("=========================================================" +service.totalCount());
 		
 		List<BoardVO> list = service.listCriteria(cri);
 		/*board/listPage?page=2&perPageNum=20*/

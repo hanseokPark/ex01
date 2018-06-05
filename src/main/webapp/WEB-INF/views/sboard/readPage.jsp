@@ -153,10 +153,12 @@
 		</span>
 		<h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
 		<div class="timeline-body">{{replytext}}</div>
+		{{#if replyer}}
 		<div class="timeline-footer">
 			<a class="btn btn-primary modbtn" data-toggle="modal" data-target="#modifyModal">Modify</a>
 			<a class="btn btn-danger delbtn">Delete</a>
-		</div>	
+		</div>
+		{{/if}}
 	</div>
 </li>
 {{/each}}
@@ -165,6 +167,16 @@
 
 
 <script>
+	Handlebars.registerHelper("if", function(replyer, options){
+		if(replyer == '${login.uid}'){
+			return options.fn(this);
+		}else{
+			return '';
+		}
+	})
+	
+	
+	
 	Handlebars.registerHelper("prettifyDate", function(value){
 		var dateObj = new Date(value);
 		var year = dateObj.getFullYear();
