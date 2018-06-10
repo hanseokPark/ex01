@@ -69,8 +69,8 @@
 	</select>
 	
    <select id="totalSearchCount" resultType="int">
-      select count(bno) from tbl_board
-      <include refid="search" />
+      	select count(bno) from tbl_board
+      	<include refid="search" />
    </select>
    
    
@@ -86,5 +86,24 @@
    </update>
    
    
+   <insert id="addAttach">
+   		insert into tbl_attach (fullname, bno) values (#{fullName}, LAST_INSERT_ID())
+   </insert>
+   
+   <insert id="modaddAttach">
+   		insert into tbl_attach (fullname, bno) values (#{fullName}, #{bno})
+   </insert>
+   
+   <select id="getAttach" resultType="string">
+   		select fullname from tbl_attach where bno = #{bno} order by regdate
+   </select>
+   
+   <delete id="deleteAttach">
+		delete from tbl_attach where bno = #{bno} and fullName = #{fullName};
+	</delete>
+   
+   <delete id="deleteImgAttach">
+   		delete from tbl_attach where bno =  #{bno};
+   </delete>
    
 </mapper>

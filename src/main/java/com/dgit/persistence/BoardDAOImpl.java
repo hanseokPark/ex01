@@ -94,5 +94,41 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.update(namespace + ".updateViewCnt", bno);
 		
 	}
+
+	@Override
+	public void addAttach(String fullName) throws Exception {
+		// TODO Auto-generated method stub
+		session.insert(namespace + ".addAttach", fullName);
+	}
+
+	@Override
+	public List<String> getAttach(int bno) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + ".getAttach", bno);
+	}
+
+	@Override
+	public void deleteAttach(int bno, String fullName) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("fullName", fullName);
+		session.delete(namespace + ".deleteAttach", map);
+	}
+
+	@Override
+	public void modaddAttach(String fullName, int bno) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("fullName", fullName);		
+		session.insert(namespace + ".modaddAttach", map);
+	}
+
+	@Override
+	public void deleteImgAttach(int bno) throws Exception {
+		// TODO Auto-generated method stub
+		session.delete(namespace + ".deleteImgAttach", bno);
+	}
 	
 }

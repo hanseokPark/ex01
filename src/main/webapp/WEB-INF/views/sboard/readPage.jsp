@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp"%>
 
 <script src="${pageContext.request.contextPath}/resources/handlebars-v4.0.10.js"></script>
@@ -12,11 +13,14 @@
 					<h3 class="box-title">Register Board</h3>
 				</div>
 				<div class="box-body">
-					<form method="get" id="f1">
+					<form method="get" id="f1" enctype="multipart/form-data">
 						<input type="hidden" name="bno" value="${boardVO.bno }" id="bno">
 						<input type="hidden" name="page" value="${cri.page }">
 						<input type="hidden" name="searchType" value="${cri.searchType }">
 						<input type="hidden" name="keyword" value="${cri.keyword }">
+						<c:forEach var ="file" items="${boardVO.files }">							
+							<input type="hidden" name="fileName" value="${file }">
+						</c:forEach> 
 					</form>
 					<div class=form-group>
 						<label>TITLE</label>
@@ -25,19 +29,28 @@
 					<div class=form-group>
 						<label>Writer</label>
 						<input type="text" name="writer" class="form-control" value="${boardVO.writer }" readonly="readonly">
-					</div>
+					</div>					
 					<div class=form-group>
 						<label>Content</label>
 						<input type="text" name="writer" class="form-control" value="${boardVO.content }" readonly="readonly">										
 					</div>
+					<div class="form-group">
+						<label>File</label>
+						<br>
+						<c:forEach var ="file" items="${boardVO.files }">
+							<img src="displayFile?filename=${file }">
+						</c:forEach> 
+					</div>
 				</div>
 				<div class="box-footer">
+					<c:if test="${boardVO.writer == login.uid }">
 					<button type="submit" class="btn btn-warning" id="modifyBtn">
 						Modify
 					</button>
 					<button type="submit" class="btn btn-danger" id="deleteBtn">
 						Delete
 					</button>
+					</c:if>
 					<button type="submit" class="btn btn-primary" id="goListBtn">
 						GO LIST
 					</button>
@@ -78,11 +91,11 @@
 							<h3 class="box-title">ADD NEW REPLY</h3>
 						</div>
 						<div class="box-body">
-							<label>Writer</label> <input class="form-control" type="text"
-								placeholder="User ID" id="newReplyWriter"> <label>Reply
-								Text </label> <input class="form-control" type="text"
-								placeholder="Reply Text" id="newReplyText">
-						</div>
+							<label>Writer</label> 
+							<input class="form-control" type="text"	placeholder="User ID" id="newReplyWriter" value="${login.uid }" readonly="readonly">
+						 	<label>Reply Text</label> 
+						 	<input class="form-control" type="text"	placeholder="Reply Text" id="newReplyText">
+						</div>						
 						<div class="box-footer">
 							<button class="btn btn-primary" id="replyAddBtn">Add Reply</button>
 						</div>
@@ -140,10 +153,12 @@
 		</span>
 		<h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
 		<div class="timeline-body">{{replytext}}</div>
+		{{#if replyer}}
 		<div class="timeline-footer">
 			<a class="btn btn-primary modbtn" data-toggle="modal" data-target="#modifyModal">Modify</a>
 			<a class="btn btn-danger delbtn">Delete</a>
-		</div>	
+		</div>
+		{{/if}}
 	</div>
 </li>
 {{/each}}
@@ -152,6 +167,16 @@
 
 
 <script>
+	Handlebars.registerHelper("if", function(replyer, options){
+		if(replyer == '${login.uid}'){
+			return options.fn(this);
+		}else{
+			return '';
+		}
+	})
+	
+	
+	
 	Handlebars.registerHelper("prettifyDate", function(value){
 		var dateObj = new Date(value);
 		var year = dateObj.getFullYear();

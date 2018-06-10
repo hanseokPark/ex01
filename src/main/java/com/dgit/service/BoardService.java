@@ -2,6 +2,7 @@ package com.dgit.service;
 
 import java.util.List;
 
+
 import com.dgit.domain.BoardVO;
 import com.dgit.domain.Criteria;
 import com.dgit.domain.SearchCriteria;
@@ -21,4 +22,7 @@ public interface BoardService {
 	public int totalSearchCount(SearchCriteria cri) throws Exception;
 	
 	public int boardviewcnt(int bno) throws Exception;
+	public void deleteAttach(int bno, String fileName) throws Exception;
+	/*public void modaddAttach(String fullName, int bno) throws Exception;*/
+	
 }
